@@ -1,125 +1,132 @@
-""" design this inferencx eapi upload lol"""
+"""yo"""
 
 
-from flask import Flask, jsonify, request
-import uuid
-from datetime import timezone, datetime
+from flask import Flask, request, jsonify
 import json
-import os
+import uuid
+from datetime import datetime, timezone
 import logging
+import os
 
-LOG_LEVEL=os.getenv('LOG_LEVEL', 'INFO')
-STORAGE_DIRECTORY=os.getenv('STORAGE_DIRECTORY', '/home/processed')
-EMBEDDING_KEY=os.getenv('EMBEDDING_KEY')
+LOG_LEVEL=os.getenv('LOG_LEVEL','INFO')
 ENVIRONMENT=os.getenv('ENVIRONMENT','development')
-MAX_DOCUMENT_SIZE_MB=int(os.getenv('MAX_DOCUMENT_SIZE_MB','50'))
+STORAGE_DIRECTORY=os.getenv('STORAGE_DIRECTORY','/tmp/processed')
+EMBEDDING_API_KEY=os.getenv('EMBEDDING_API_KEY')
+MAX_DOCUMENT_SIZE_MB=int(os.getenv('MAX_DOCUMENT_SIZE_MB', '50'))
 
 logging.basicConfig(
     level=getattr(logging, LOG_LEVEL.upper(), logging.INFO),
-    format="%(asctime)s - - %(name)s - %(levelname)s - %(message)s"
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger=logging.getLogger(__name__)
 
-app=Flask(__name__)
-
-def ensure_storage_directory():
+def _ensure_storage_directory():
     try:
-        os.makedirs(STORAGE_DIRECTORY, exist_ok=True)
+        os.makedirs(STORAGE_DIRECTORY,exist_ok=True)
         return True
     except Exception as e:
-        logger.error("it dont work %s", e)
-        return False
+        return jsonify({'error': 'cannot make storage: {e}'})
 
-def ensure_embedding_key():
-    return bool(EMBEDDING_KEY and EMBEDDING_KEY.strip())
+def _ensure_embedding_key():
+    return bool(EMBEDDING_API_KEY and EMBEDDING_API_KEY.strip())
+
+
+app = Flask(__name__)
 
 @app.route('/')
 def root():
     return jsonify({
-        "key": EMBEDDING_KEY,
-        "environment": ENVIRONMENT
+        'environment': ENVIRONMENT
     })
 
 @app.route('/health')
 def health():
-    return jsonify({
-        'status': 'healthy'
-    }), 200
+    return jsonify({'status': 'healthy'})
 
 @app.route('/process', methods=['POST'])
 def process_document():
-    """process the docmeny basd on input"""
+    if not _ensure_storage_directory():
+        return jsonify({'error': 'no straoge directory allowed'}),500
+    if not _ensure_embedding_key():
+        return jsonify({'error': 'no embedding key present in env var'}),500
 
-    doc_id=str(uuid.uuid4())
-    timestamp=datetime.now(timezone.utc).isoformat().replace("+00:00", "z")
-
-    if not ensure_storage_directory():
-        return jsonify({'error','cannot storage info'}),500
+    doc_id = str(uuid.uuid4())
+    timestamp = datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
 
     if request.is_json:
-        data=request.get_json();
-        filename=data.get("filename", "document.txt")
-        content=data.get("content", {})
+        data = request.get_json()
+        content = data.get('content', {})
+        filename = data.get('filename', 'document.txt')
     elif request.files:
-        file=request.files.get("file")
-        filename=file.filename
-        content=file.read().decode('utf-8')
+        file = request.files.get('file')
+        filename = file.filename
+        content = file.read().decode('utf-8')
     else:
-        filename='document.txt'
-        content=request.data.decode('utf-8') or 'Document Info'
+        content = request.data.decode('utf-8') or "Document yo"
+        filename = 'document.txt'
+
+    if not content:
+        return jsonify({'error':'there is no content'})
 
     if len(content.encode('utf-8')) / (1024 * 1024) > MAX_DOCUMENT_SIZE_MB:
-        return jsonify({'error':f'document to big, max is {MAX_DOCUMENT_SIZE_MB}'})
+        return jsonify({'error': f'document is too big. it is {len(content.encode('utf-8')) / (1024 * 1024)} MB max is {MAX_DOCUMENT_SIZE_MB} MB'})
 
-    keywords=['so','cool','oh wowies']
     result={
         'filename':filename,
-        'word_count':len(content.split()),
-        'char_count':len(content)
+        'word_count': len(content.split()),
+        'char_count': len(content),
+        'timestamp': timestamp
     }
 
     try:
-        filepath=os.path.join(STORAGE_DIRECTORY, f'{doc_id}.json')
-        with open(filepath, 'w', encoding='utf-8') as f:
+        filepath =os.path.join(STORAGE_DIRECTORY, f"{doc_id}.json")
+        with open(filepath, 'w',encoding='utf-8') as f:
             json.dump(result, f, indent=2)
+            result['storage'] = {'saved': True, 'location': filepath}
     except Exception as e:
-        return jsonif({"error":'failed {e}'})
+        return jsonify({'error': 'error writing. {e}'})
 
     return jsonify(result)
 
-@app.route('/documents',methods=['GET'])
+@app.route('/documents')
 def list_documents():
-    if not ensure_storage_directory():
-        return jsonify({'error': 'no storage directory'}),500
+    if not _ensure_storage_directory():
+        return jsonify({'error':'no storage directory'})
 
-    docs=[]
+    documents=[]
     for filename in os.listdir(STORAGE_DIRECTORY):
-        if filename.endswith('.json'):
-            filepath=os.path.join(STORAGE_DIRECTORY, filename)
-            stat = os.stat(filepath);
-            docs.append({
-                'doc_id':filename.replace('.json',''),
-                'size': stat.st_size,
-                'created_at': datetime.fromtimestamp(stat.st_ctime, tz=timezone.utc).isoformat().replace('+00:00', 'Z')
-            })
+        filepath=os.path.join(STORAGE_DIRECTORY, filename)
+        stat = os.stat(filepath)
+        documents.append({
+            'created_at':datetime.fromtimestamp(stat.st_ctime, timezone.utc).isoformat().replace('+00:00', 'Z'),
+            'size':stat.st_size,
+            'doc_id':filename.replace('.json','')
+        })
 
-    return jsonify({"results": docs, "count": len(docs)}), 200
+    return jsonify({'documents': documents, 'count': len(documents)})
 
-@app.route('/documents/<doc_id>',methods=['GET'])
+@app.route('/documents/<doc_id>')
 def get_document(doc_id):
-    if not ensure_storage_directory():
-        return jsonify({'error': 'no storage'}),500
+    if not _ensure_storage_directory:
+        return jsonify({'error':'no storage directory'})
 
-    filepath=os.path.join(STORAGE_DIRECTORY, f"{doc_id}.json")
+    filepath=os.path.join(STORAGE_DIRECTORY, f'{doc_id}.json')
+
+    if not os.path.exists(filepath):
+        return jsonify({'error':'file doesnt exist'})
+
     try:
-        with open(filepath,'r', encoding='utf-8') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             return jsonify(json.load(f))
     except Exception as e:
-        return jsonify({'error':f'wahwah {e}'})
+            return jsonify({'error': 'could not open the file . {e}'})
 
-if __name__ == "__main__":
-    ensure_storage_directory()
-    app.run(debug=True, host='0.0.0.0', port=os.getenv('PORT', 8000))
-        
+
+if __name__ == '__main__':
+    _ensure_storage_directory()
+    _ensure_embedding_key()
+
+    app.run(debug=True, host='0.0.0.0', port=os.getenv('PORT',8000))
+
     
-
+    
