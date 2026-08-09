@@ -1,0 +1,7 @@
+$env:RESOURCE_GROUP = "rg-lksdflkjadf"
+$env:ACA_ENVIRONMENT = "aca-env-d37563cb"
+$env:CONTAINER_APP_NAME = "agent-api"
+$env:CONTAINER_APP_FQDN = "agent-api.thankfulground-d851e9bc.centralus.azurecontainerapps.io"
+$env:CONTAINER_APP_URL = "https://agent-api.thankfulground-d851e9bc.centralus.azurecontainerapps.io"
+$env:CONTAINER_IMAGE = "agent-api:v1"
+$env:LOCATION = "centralus"
