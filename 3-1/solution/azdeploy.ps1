@@ -1,7 +1,7 @@
 # Change the values of these variables as needed
 
-$rg = "<your-resource-group-name>"  # Resource Group name
-$location = "<your-azure-region>"   # Azure region for the resources
+$rg = "rg-kubernetes"  # Resource Group name
+$location = "centralus"   # Azure region for the resources
 
 # ============================================================================
 # DON'T CHANGE ANYTHING BELOW THIS LINE.
@@ -402,10 +402,10 @@ function Deploy-ToAKS {
 
     # Update the deployment.yaml with the correct ACR endpoint and Foundry endpoint
     Write-Host "Deploying Kubernetes manifests..."
-    $deploymentContent = Get-Content k8s/deployment.yaml -Raw
+    $deploymentContent = Get-Content solution/k8s/deployment.yaml -Raw
     $deploymentContent = $deploymentContent -replace "ACR_ENDPOINT", "$acrName.azurecr.io"
     $deploymentContent = $deploymentContent -replace "FOUNDRY_ENDPOINT", $endpoint
-    $deploymentContent | kubectl apply -f - -n default 2>$null | Out-Null
+    $deploymentContent | kubectl apply -f - -n default 
 
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Error: Failed to apply deployment manifest."
@@ -415,7 +415,7 @@ function Deploy-ToAKS {
     Write-Host "$([char]0x2713) Deployment manifest updated with ACR endpoint: $acrName.azurecr.io and Foundry endpoint"
 
     # Apply the service manifest
-    kubectl apply -f k8s/service.yaml -n default 2>$null | Out-Null
+    kubectl apply -f solution/k8s/service.yaml -n default 
 
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Error: Failed to apply service manifest."
@@ -454,7 +454,7 @@ function Deploy-ToAKS {
 @"
 # API Endpoint for AKS-deployed service
 API_ENDPOINT=http://$externalIp
-"@ | Out-File -FilePath client/.env -Encoding utf8
+"@ | Out-File -FilePath solution/client/.env -Encoding utf8
     Write-Host "$([char]0x2713) client/.env updated"
     Write-Host ""
     Write-Host "=========================================="
