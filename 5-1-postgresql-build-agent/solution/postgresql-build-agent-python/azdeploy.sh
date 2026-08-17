@@ -2,8 +2,8 @@
 
 # Change the values of these variables as needed
 
-rg="<your-resource-group-name>"  # Resource Group name
-location="<your-azure-region>"   # Azure region for the resources
+rg="g23123"  # Resource Group name
+location="centralus"   # Azure region for the resources
 
 # ============================================================================
 # DON'T CHANGE ANYTHING BELOW THIS LINE.
@@ -39,7 +39,7 @@ create_postgres_server() {
     echo "Creating Azure Database for PostgreSQL Flexible Server '$server_name'..."
     echo "This may take several minutes..."
 
-    local server_exists=$(az postgres flexible-server show --resource-group $rg --name $server_name 2>/dev/null)
+    local server_exists=$(az postgres flexible-server show --resource-group $rg --name $server_name)
     if [ -z "$server_exists" ]; then
         az postgres flexible-server create \
             --resource-group $rg \
@@ -51,7 +51,7 @@ create_postgres_server() {
             --version 16 \
             --public-access 0.0.0.0-255.255.255.255 \
             --microsoft-entra-auth Enabled \
-            --password-auth Disabled > /dev/null 2>&1
+            --password-auth Disabled 
 
         if [ $? -eq 0 ]; then
             echo "✓ PostgreSQL server created successfully"

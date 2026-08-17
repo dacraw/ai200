@@ -2,8 +2,8 @@
 
 # Change the values of these variables as needed
 
-$rg = "<your-resource-group-name>"  # Resource Group name
-$location = "<your-azure-region>"   # Azure region for the resources
+$rg = "rg-pgazdb"  # Resource Group name
+$location = "centralus"   # Azure region for the resources
 
 # ============================================================================
 # DON'T CHANGE ANYTHING BELOW THIS LINE.
@@ -35,13 +35,27 @@ function Create-ResourceGroup {
     }
 }
 
+$myObjectId = (az ad signed-in-user show --query id -o tsv)
+$myName = (az ad signed-in-user show --query userPrincipalName -o tsv)
+
 # Function to create Azure Database for PostgreSQL Flexible Server
 function Create-PostgresServer {
     Write-Host "Creating Azure Database for PostgreSQL Flexible Server '$serverName'..."
     Write-Host "This may take several minutes..."
 
-    az postgres flexible-server show --resource-group $rg --name $serverName 2>$null | Out-Null
+    az postgres flexible-server show --resource-group $rg --name $serverName 
     if ($LASTEXITCODE -ne 0) {
+        # az postgres flexible-server create `
+        #     --resource-group $rg `
+        #     --name $serverName `
+        #     --location $location `
+        #     --sku-name Standard_B1ms `
+        #     --tier Burstable `
+        #     --storage-size 32 `
+        #     --version 16 `
+        #     --public-access 0.0.0.0-255.255.255.255 `
+        #     --microsoft-entra-auth Enabled `
+        #     --password-auth Disabled
         az postgres flexible-server create `
             --resource-group $rg `
             --name $serverName `
@@ -52,7 +66,9 @@ function Create-PostgresServer {
             --version 16 `
             --public-access 0.0.0.0-255.255.255.255 `
             --microsoft-entra-auth Enabled `
-            --password-auth Disabled 2>$null | Out-Null
+            --password-auth Disabled `
+            --admin-user azureuser `
+            --admin-password "TutorialBypass123!"
 
         if ($LASTEXITCODE -eq 0) {
             Write-Host "$([char]0x2713) PostgreSQL server created successfully"
