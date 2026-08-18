@@ -1,0 +1,274 @@
+DEBUG: cli.knack.cli: Command arguments: ['postgres', 'flexible-server', 'create', '--resource-group', 'rg-lksjdf', '--name', 'psql-agent-test2', '--location', 'westus2', '--sku-name', 'Standard_B1ms', '--tier', 'Burstable', '--storage-size', '32', '--version', '16', '--public-access', '0.0.0.0-255.255.255.255', '--microsoft-entra-auth', 'Enabled', '--password-auth', 'Disabled', '--debug']
+DEBUG: cli.knack.cli: __init__ debug log:
+Cannot enable color.
+DEBUG: cli.knack.cli: Event: Cli.PreExecute []
+DEBUG: cli.knack.cli: Event: CommandParser.OnGlobalArgumentsCreate [<function CLILogging.on_global_arguments at 0x0000020B208D9B10>, <function OutputProducer.on_global_arguments at 0x0000020B20DE0A90>, <function CLIQuery.on_global_arguments at 0x0000020B20E0F110>]
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnPreCommandTableCreate []
+DEBUG: cli.azure.cli.core: Using packaged command index for profile 'latest'.
+DEBUG: cli.azure.cli.core: Found installed extension 'containerapp' (azext_containerapp).
+DEBUG: cli.azure.cli.core: Blending packaged core index with local extension index.
+DEBUG: cli.azure.cli.core: Modules found from index for 'postgres': ['azure.cli.command_modules.postgresql']
+DEBUG: cli.azure.cli.core: Loading command modules...
+DEBUG: cli.azure.cli.core: Name                  Load Time    Groups  Commands
+DEBUG: cli.azure.cli.core: postgresql                0.378        19        82
+DEBUG: cli.azure.cli.core: Loaded command modules:
+DEBUG: cli.azure.cli.core: Total (1)                 0.378        19        82
+DEBUG: cli.azure.cli.core: These extensions are not installed and will be skipped: ['azext_ai_examples', 'azext_next']
+DEBUG: cli.azure.cli.core: Loading extensions:
+DEBUG: cli.azure.cli.core: Name                  Load Time    Groups  Commands  Directory
+DEBUG: cli.azure.cli.core: Total (0)                 0.000         0         0  
+DEBUG: cli.azure.cli.core: Loaded 19 groups, 82 commands.
+DEBUG: cli.azure.cli.core: Found a match in the command table.
+DEBUG: cli.azure.cli.core: Raw command  : postgres flexible-server create
+DEBUG: cli.azure.cli.core: Command table: postgres flexible-server create
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnPreCommandTableTruncate [<function AzCliLogging.init_command_file_logging at 0x0000020B20FBF8A0>]
+DEBUG: cli.azure.cli.core.azlogging: metadata file logging enabled - writing logs to 'C:\Users\douga\.azure\commands\2026-08-14.15-27-24.postgres_flexible-server_create.12876.log'.
+INFO: az_command_data_logger: command args: postgres flexible-server create --resource-group {} --name {} --location {} --sku-name {} --tier {} --storage-size {} --version {} --public-access {} --microsoft-entra-auth {} --password-auth {} --debug
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnPreArgumentLoad [<function register_global_subscription_argument.<locals>.add_subscription_parameter at 0x0000020B20EE1A60>]
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnPostArgumentLoad []
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnPostCommandTableCreate [<function register_ids_argument.<locals>.add_ids_arguments at 0x0000020B20FF1380>, <function register_global_policy_argument.<locals>.add_global_policy_argument at 0x0000020B21010460>, <function register_cache_arguments.<locals>.add_cache_arguments at 0x0000020B21010510>, <function register_upcoming_breaking_change_info.<locals>.update_breaking_change_info at 0x0000020B210105C0>]
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnCommandTableLoaded []
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnPreParseArgs []
+DEBUG: cli.knack.cli: Event: CommandInvoker.OnPostParseArgs [<function OutputProducer.handle_output_argument at 0x0000020B20DE0B40>, <function CLIQuery.handle_query_parameter at 0x0000020B20E0F1C0>, <function register_ids_argument.<locals>.parse_ids_arguments at 0x0000020B210103B0>]
+DEBUG: cli.azure.cli.core.commands.client_factory: Getting management service client client_type=PostgreSQLManagementClient
+DEBUG: cli.azure.cli.core.auth.persistence: build_persistence: location='C:\\Users\\douga\\.azure\\msal_token_cache.bin', encrypt=True
+DEBUG: cli.azure.cli.core.auth.binary_cache: load: C:\Users\douga\.azure\msal_http_cache.bin
+DEBUG: urllib3.util.retry: Converted retries value: 1 -> Retry(total=1, connect=None, read=None, redirect=None, status=None)
+DEBUG: msal.application: Broker enabled? True
+WARNING: cli.azure.cli.command_modules.postgresql.utils._flexible_server_util: Checking the existence of the resource group 'rg-lksjdf'...
+DEBUG: cli.azure.cli.core.commands.client_factory: Getting management service client client_type=ResourceManagementClient
+DEBUG: urllib3.util.retry: Converted retries value: 1 -> Retry(total=1, connect=None, read=None, redirect=None, status=None)
+DEBUG: msal.application: Broker enabled? True
+DEBUG: cli.azure.cli.core.auth.credential_adaptor: CredentialAdaptor.get_token_info: scopes=('https://management.core.windows.net//.default',), options={}
+DEBUG: cli.azure.cli.core.auth.msal_credentials: UserCredential.acquire_token: scopes=['https://management.core.windows.net//.default'], claims_challenge=None, kwargs={}
+DEBUG: msal.application: Cache hit an AT
+DEBUG: msal.telemetry: Generate or reuse correlation_id: 7f934e4c-237d-4064-8d63-7161c1353ac7
+DEBUG: cli.azure.cli.core.sdk.policies: Request URL: 'https://management.azure.com/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourcegroups/rg-lksjdf?api-version=2024-11-01'
+DEBUG: cli.azure.cli.core.sdk.policies: Request method: 'HEAD'
+DEBUG: cli.azure.cli.core.sdk.policies: Request headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Accept': 'application/json'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-client-request-id': '8f02984f-981e-11f1-875a-f0a65413a79e'
+DEBUG: cli.azure.cli.core.sdk.policies:     'CommandName': 'postgres flexible-server create'
+DEBUG: cli.azure.cli.core.sdk.policies:     'ParameterSetName': '--resource-group --name --location --sku-name --tier --storage-size --version --public-access --microsoft-entra-auth --password-auth --debug'
+DEBUG: cli.azure.cli.core.sdk.policies:     'User-Agent': 'AZURECLI/2.88.0 (MSI) azsdk-python-core/1.39.0 Python/3.14.5 (Windows-11-10.0.26200-SP0)'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Authorization': '*****'
+DEBUG: cli.azure.cli.core.sdk.policies: Request body:
+DEBUG: cli.azure.cli.core.sdk.policies: This request has no body
+DEBUG: urllib3.connectionpool: Starting new HTTPS connection (1): management.azure.com:443
+DEBUG: urllib3.connectionpool: https://management.azure.com:443 "HEAD /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourcegroups/rg-lksjdf?api-version=2024-11-01 HTTP/1.1" 404 0
+DEBUG: cli.azure.cli.core.sdk.policies: Response status: 404
+DEBUG: cli.azure.cli.core.sdk.policies: Response headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Cache-Control': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Pragma': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '0'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Expires': '-1'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-failure-cause': 'gateway'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-reads': '249'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-global-reads': '3749'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-request-id': '05bed901-729d-4ebb-a65d-6db512f8c0a8'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-correlation-request-id': '05bed901-729d-4ebb-a65d-6db512f8c0a8'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-routing-request-id': 'SOUTHCENTRALUS:20260814T202725Z:05bed901-729d-4ebb-a65d-6db512f8c0a8'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Content-Type-Options': 'nosniff'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Cache': 'CONFIG_NOCACHE'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-MSEdge-Ref': 'Ref A: C7FF2D27D0FA46EA95F35EF39A684039 Ref B: SN4AA2022305035 Ref C: 2026-08-14T20:27:25Z'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Date': 'Fri, 14 Aug 2026 20:27:25 GMT'
+DEBUG: cli.azure.cli.core.sdk.policies: Response content:
+DEBUG: cli.azure.cli.core.sdk.policies: 
+WARNING: cli.azure.cli.command_modules.postgresql.utils._flexible_server_util: Resource group 'rg-lksjdf' exists ? : False 
+DEBUG: cli.azure.cli.core.commands.client_factory: Getting management service client client_type=ResourceManagementClient
+DEBUG: urllib3.util.retry: Converted retries value: 1 -> Retry(total=1, connect=None, read=None, redirect=None, status=None)
+DEBUG: msal.application: Broker enabled? True
+WARNING: cli.azure.cli.command_modules.postgresql.utils._flexible_server_util: Creating Resource Group 'rg-lksjdf'...
+DEBUG: cli.azure.cli.core.auth.credential_adaptor: CredentialAdaptor.get_token_info: scopes=('https://management.core.windows.net//.default',), options={}
+DEBUG: cli.azure.cli.core.auth.msal_credentials: UserCredential.acquire_token: scopes=['https://management.core.windows.net//.default'], claims_challenge=None, kwargs={}
+DEBUG: msal.application: Cache hit an AT
+DEBUG: msal.telemetry: Generate or reuse correlation_id: 4fbd03b0-11a6-4328-8c47-efba49413f44
+DEBUG: cli.azure.cli.core.sdk.policies: Request URL: 'https://management.azure.com/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourcegroups/rg-lksjdf?api-version=2024-11-01'
+DEBUG: cli.azure.cli.core.sdk.policies: Request method: 'PUT'
+DEBUG: cli.azure.cli.core.sdk.policies: Request headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Type': 'application/json'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '23'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Accept': 'application/json'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-client-request-id': '8f02984f-981e-11f1-875a-f0a65413a79e'
+DEBUG: cli.azure.cli.core.sdk.policies:     'CommandName': 'postgres flexible-server create'
+DEBUG: cli.azure.cli.core.sdk.policies:     'ParameterSetName': '--resource-group --name --location --sku-name --tier --storage-size --version --public-access --microsoft-entra-auth --password-auth --debug'
+DEBUG: cli.azure.cli.core.sdk.policies:     'User-Agent': 'AZURECLI/2.88.0 (MSI) azsdk-python-core/1.39.0 Python/3.14.5 (Windows-11-10.0.26200-SP0)'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Authorization': '*****'
+DEBUG: cli.azure.cli.core.sdk.policies: Request body:
+DEBUG: cli.azure.cli.core.sdk.policies: {"location": "westus2"}
+DEBUG: urllib3.connectionpool: Starting new HTTPS connection (1): management.azure.com:443
+DEBUG: urllib3.connectionpool: https://management.azure.com:443 "PUT /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourcegroups/rg-lksjdf?api-version=2024-11-01 HTTP/1.1" 201 216
+DEBUG: cli.azure.cli.core.sdk.policies: Response status: 201
+DEBUG: cli.azure.cli.core.sdk.policies: Response headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Cache-Control': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Pragma': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '216'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Type': 'application/json; charset=utf-8'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Expires': '-1'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-writes': '199'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-global-writes': '2999'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-request-id': '077d4c6a-0859-4b87-baac-30dff633cd98'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-correlation-request-id': '077d4c6a-0859-4b87-baac-30dff633cd98'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-routing-request-id': 'SOUTHCENTRALUS:20260814T202728Z:077d4c6a-0859-4b87-baac-30dff633cd98'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Content-Type-Options': 'nosniff'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Cache': 'CONFIG_NOCACHE'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-MSEdge-Ref': 'Ref A: 5CDD1983D32044AAB6DF55ED4EDB4590 Ref B: SN4AA2022305025 Ref C: 2026-08-14T20:27:26Z'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Date': 'Fri, 14 Aug 2026 20:27:28 GMT'
+DEBUG: cli.azure.cli.core.sdk.policies: Response content:
+DEBUG: cli.azure.cli.core.sdk.policies: {"id":"/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-lksjdf","name":"rg-lksjdf","type":"Microsoft.Resources/resourceGroups","location":"westus2","properties":{"provisioningState":"Succeeded"}}
+DEBUG: cli.azure.cli.core.commands.client_factory: Getting management service client client_type=PostgreSQLManagementClient
+DEBUG: urllib3.util.retry: Converted retries value: 1 -> Retry(total=1, connect=None, read=None, redirect=None, status=None)
+DEBUG: msal.application: Broker enabled? True
+DEBUG: cli.azure.cli.core.auth.credential_adaptor: CredentialAdaptor.get_token_info: scopes=('https://management.core.windows.net//.default',), options={}
+DEBUG: cli.azure.cli.core.auth.msal_credentials: UserCredential.acquire_token: scopes=['https://management.core.windows.net//.default'], claims_challenge=None, kwargs={}
+DEBUG: msal.application: Cache hit an AT
+DEBUG: msal.telemetry: Generate or reuse correlation_id: 0feeff43-51de-43f4-b0ae-0f1e6754c36d
+DEBUG: cli.azure.cli.core.sdk.policies: Request URL: 'https://management.azure.com/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/providers/Microsoft.DBforPostgreSQL/locations/westus2/checkNameAvailability?api-version=2026-04-01-preview'
+DEBUG: cli.azure.cli.core.sdk.policies: Request method: 'POST'
+DEBUG: cli.azure.cli.core.sdk.policies: Request headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Type': 'application/json'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '81'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Accept': 'application/json'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-client-request-id': '8f02984f-981e-11f1-875a-f0a65413a79e'
+DEBUG: cli.azure.cli.core.sdk.policies:     'CommandName': 'postgres flexible-server create'
+DEBUG: cli.azure.cli.core.sdk.policies:     'ParameterSetName': '--resource-group --name --location --sku-name --tier --storage-size --version --public-access --microsoft-entra-auth --password-auth --debug'
+DEBUG: cli.azure.cli.core.sdk.policies:     'User-Agent': 'AZURECLI/2.88.0 (MSI) azsdk-python-core/1.39.0 Python/3.14.5 (Windows-11-10.0.26200-SP0)'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Authorization': '*****'
+DEBUG: cli.azure.cli.core.sdk.policies: Request body:
+DEBUG: cli.azure.cli.core.sdk.policies: {"name": "psql-agent-test2", "type": "Microsoft.DBforPostgreSQL/flexibleServers"}
+DEBUG: urllib3.connectionpool: Starting new HTTPS connection (1): management.azure.com:443
+DEBUG: urllib3.connectionpool: https://management.azure.com:443 "POST /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/providers/Microsoft.DBforPostgreSQL/locations/westus2/checkNameAvailability?api-version=2026-04-01-preview HTTP/1.1" 200 112
+DEBUG: cli.azure.cli.core.sdk.policies: Response status: 200
+DEBUG: cli.azure.cli.core.sdk.policies: Response headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Cache-Control': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Pragma': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '112'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Type': 'application/json; charset=utf-8'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Expires': '-1'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Content-Type-Options': 'nosniff'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-request-id': 'bb66f499-8b49-46f4-9b05-158ead2ff47d'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-operation-identifier': 'tenantId=c4eb6f86-2026-439f-98d3-b12fb45fe191,objectId=9c9b676a-ae6e-4248-b650-b0c48ea1553e/southcentralus/6e04e92b-4be4-42ac-ac04-c10a6f95fd17'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-writes': '199'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-global-writes': '2999'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-correlation-request-id': 'bc80bd87-c985-4f5c-95dc-97f2fbd55348'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-routing-request-id': 'SOUTHCENTRALUS:20260814T202729Z:bc80bd87-c985-4f5c-95dc-97f2fbd55348'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Cache': 'CONFIG_NOCACHE'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-MSEdge-Ref': 'Ref A: 992EDCA99F1A49F69A80A9ABA4E9753B Ref B: SN4AA2022303027 Ref C: 2026-08-14T20:27:29Z'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Date': 'Fri, 14 Aug 2026 20:27:29 GMT'
+DEBUG: cli.azure.cli.core.sdk.policies: Response content:
+DEBUG: cli.azure.cli.core.sdk.policies: {"name":"psql-agent-test2","type":"Microsoft.DBforPostgreSQL/flexibleServers","nameAvailable":true,"message":""}
+DEBUG: cli.azure.cli.core.commands.client_factory: Getting management service client client_type=PostgreSQLManagementClient
+DEBUG: urllib3.util.retry: Converted retries value: 1 -> Retry(total=1, connect=None, read=None, redirect=None, status=None)
+DEBUG: msal.application: Broker enabled? True
+DEBUG: cli.azure.cli.core.auth.credential_adaptor: CredentialAdaptor.get_token_info: scopes=('https://management.core.windows.net//.default',), options={}
+DEBUG: cli.azure.cli.core.auth.msal_credentials: UserCredential.acquire_token: scopes=['https://management.core.windows.net//.default'], claims_challenge=None, kwargs={}
+DEBUG: msal.application: Cache hit an AT
+DEBUG: msal.telemetry: Generate or reuse correlation_id: bcbb6402-af0f-49ec-b161-04c60b17d8af
+DEBUG: cli.azure.cli.core.sdk.policies: Request URL: 'https://management.azure.com/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/providers/Microsoft.DBforPostgreSQL/locations/westus2/capabilities?api-version=2026-04-01-preview'
+DEBUG: cli.azure.cli.core.sdk.policies: Request method: 'GET'
+DEBUG: cli.azure.cli.core.sdk.policies: Request headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Accept': 'application/json'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-client-request-id': '8f02984f-981e-11f1-875a-f0a65413a79e'
+DEBUG: cli.azure.cli.core.sdk.policies:     'CommandName': 'postgres flexible-server create'
+DEBUG: cli.azure.cli.core.sdk.policies:     'ParameterSetName': '--resource-group --name --location --sku-name --tier --storage-size --version --public-access --microsoft-entra-auth --password-auth --debug'
+DEBUG: cli.azure.cli.core.sdk.policies:     'User-Agent': 'AZURECLI/2.88.0 (MSI) azsdk-python-core/1.39.0 Python/3.14.5 (Windows-11-10.0.26200-SP0)'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Authorization': '*****'
+DEBUG: cli.azure.cli.core.sdk.policies: Request body:
+DEBUG: cli.azure.cli.core.sdk.policies: This request has no body
+DEBUG: urllib3.connectionpool: Starting new HTTPS connection (1): management.azure.com:443
+DEBUG: urllib3.connectionpool: https://management.azure.com:443 "GET /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/providers/Microsoft.DBforPostgreSQL/locations/westus2/capabilities?api-version=2026-04-01-preview HTTP/1.1" 200 23188
+DEBUG: cli.azure.cli.core.sdk.policies: Response status: 200
+DEBUG: cli.azure.cli.core.sdk.policies: Response headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Cache-Control': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Pragma': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '23188'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Type': 'application/json; charset=utf-8'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Expires': '-1'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Content-Type-Options': 'nosniff'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-request-id': 'ba51cade-d9a4-4316-b8b0-8b9ee137f1ed'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-operation-identifier': 'tenantId=c4eb6f86-2026-439f-98d3-b12fb45fe191,objectId=9c9b676a-ae6e-4248-b650-b0c48ea1553e/southcentralus/03e7b3ac-ff9f-4740-845d-4a4d44059857'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-reads': '249'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-global-reads': '3749'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-correlation-request-id': 'b27d11c8-606d-4a17-b342-c9bb27dc7c7b'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-routing-request-id': 'SOUTHCENTRALUS:20260814T202732Z:b27d11c8-606d-4a17-b342-c9bb27dc7c7b'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Cache': 'CONFIG_NOCACHE'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-MSEdge-Ref': 'Ref A: 01CFA962A35B453F92C104553BA5C760 Ref B: SN4AA2022303021 Ref C: 2026-08-14T20:27:30Z'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Date': 'Fri, 14 Aug 2026 20:27:31 GMT'
+DEBUG: cli.azure.cli.core.sdk.policies: Response content:
+DEBUG: cli.azure.cli.core.sdk.policies: {"value":[{"name":"FlexibleServerCapabilities","supportedServerEditions":[{"supportedServerSkus":[{"supportedFeatures":[],"name":"Standard_B1ms","vCores":1,"supportedIops":640,"supportedMemoryPerVcoreMb":2048,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_B2s","vCores":2,"supportedIops":1280,"supportedMemoryPerVcoreMb":2048,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_B2ms","vCores":2,"supportedIops":1920,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_B4ms","vCores":4,"supportedIops":2880,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_B8ms","vCores":8,"supportedIops":4320,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_B12ms","vCores":12,"supportedIops":4320,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_B16ms","vCores":16,"supportedIops":4320,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_B20ms","vCores":20,"supportedIops":4320,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]}],"name":"Burstable","defaultSkuName":"Standard_B2s","supportedStorageEditions":[{"name":"ManagedDisk","defaultStorageSizeMb":32768,"supportedStorageMb":[{"supportedIops":120,"storageSizeMb":32768,"defaultIopsTier":"P4","supportedIopsTiers":[{"name":"P4","iops":120},{"name":"P6","iops":240},{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":240,"storageSizeMb":65536,"defaultIopsTier":"P6","supportedIopsTiers":[{"name":"P6","iops":240},{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":500,"storageSizeMb":131072,"defaultIopsTier":"P10","supportedIopsTiers":[{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":1100,"storageSizeMb":262144,"defaultIopsTier":"P15","supportedIopsTiers":[{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":2300,"storageSizeMb":524288,"defaultIopsTier":"P20","supportedIopsTiers":[{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":5000,"storageSizeMb":1048576,"defaultIopsTier":"P30","supportedIopsTiers":[{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":2097152,"defaultIopsTier":"P40","supportedIopsTiers":[{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":4193280,"defaultIopsTier":"P50","supportedIopsTiers":[{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":4194304,"defaultIopsTier":"P50","supportedIopsTiers":[{"name":"P50","iops":7500}]},{"supportedIops":16000,"storageSizeMb":8388608,"defaultIopsTier":"P60","supportedIopsTiers":[{"name":"P60","iops":16000},{"name":"P70","iops":18000},{"name":"P80","iops":20000}]},{"supportedIops":18000,"storageSizeMb":16777216,"defaultIopsTier":"P70","supportedIopsTiers":[{"name":"P70","iops":18000},{"name":"P80","iops":20000}]},{"supportedIops":20000,"storageSizeMb":33553408,"defaultIopsTier":"P80","supportedIopsTiers":[{"name":"P80","iops":20000}]}]},{"name":"ManagedDiskV2","defaultStorageSizeMb":32768,"supportedStorageMb":[{"supportedIops":3000,"supportedMaximumIops":80000,"storageSizeMb":32768,"maximumStorageSizeMb":67108864,"supportedThroughput":125,"supportedMaximumThroughput":1200,"defaultIopsTier":"None","supportedIopsTiers":[{"name":"None","iops":0}]}]}]},{"supportedServerSkus":[{"supportedFeatures":[],"name":"Standard_D2s_v3","vCores":2,"supportedIops":3200,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D4s_v3","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D8s_v3","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D16s_v3","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D32s_v3","vCores":32,"supportedIops":51200,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D48s_v3","vCores":48,"supportedIops":76800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D64s_v3","vCores":64,"supportedIops":80000,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D2ds_v4","vCores":2,"supportedIops":3200,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D4ds_v4","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D8ds_v4","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D16ds_v4","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D32ds_v4","vCores":32,"supportedIops":51200,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D48ds_v4","vCores":48,"supportedIops":76800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D64ds_v4","vCores":64,"supportedIops":80000,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D2ads_v5","vCores":2,"supportedIops":3200,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D4ads_v5","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D8ads_v5","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D16ads_v5","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D32ads_v5","vCores":32,"supportedIops":51200,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D48ads_v5","vCores":48,"supportedIops":76800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D64ads_v5","vCores":64,"supportedIops":80000,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D96ads_v5","vCores":96,"supportedIops":80000,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D2ds_v5","vCores":2,"supportedIops":3750,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D4ds_v5","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D8ds_v5","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D16ds_v5","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D32ds_v5","vCores":32,"supportedIops":51200,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D48ds_v5","vCores":48,"supportedIops":76800,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D64ds_v5","vCores":64,"supportedIops":80000,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D96ds_v5","vCores":96,"supportedIops":80000,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_D16ps_v","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":4096,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]}],"name":"GeneralPurpose","defaultSkuName":"Standard_D4ds_v5","supportedStorageEditions":[{"name":"ManagedDisk","defaultStorageSizeMb":65536,"supportedStorageMb":[{"supportedIops":120,"storageSizeMb":32768,"defaultIopsTier":"P4","supportedIopsTiers":[{"name":"P4","iops":120},{"name":"P6","iops":240},{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":240,"storageSizeMb":65536,"defaultIopsTier":"P6","supportedIopsTiers":[{"name":"P6","iops":240},{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":500,"storageSizeMb":131072,"defaultIopsTier":"P10","supportedIopsTiers":[{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":1100,"storageSizeMb":262144,"defaultIopsTier":"P15","supportedIopsTiers":[{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":2300,"storageSizeMb":524288,"defaultIopsTier":"P20","supportedIopsTiers":[{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":5000,"storageSizeMb":1048576,"defaultIopsTier":"P30","supportedIopsTiers":[{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":2097152,"defaultIopsTier":"P40","supportedIopsTiers":[{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":4193280,"defaultIopsTier":"P50","supportedIopsTiers":[{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":4194304,"defaultIopsTier":"P50","supportedIopsTiers":[{"name":"P50","iops":7500}]},{"supportedIops":16000,"storageSizeMb":8388608,"defaultIopsTier":"P60","supportedIopsTiers":[{"name":"P60","iops":16000},{"name":"P70","iops":18000},{"name":"P80","iops":20000}]},{"supportedIops":18000,"storageSizeMb":16777216,"defaultIopsTier":"P70","supportedIopsTiers":[{"name":"P70","iops":18000},{"name":"P80","iops":20000}]},{"supportedIops":20000,"storageSizeMb":33553408,"defaultIopsTier":"P80","supportedIopsTiers":[{"name":"P80","iops":20000}]}]},{"name":"ManagedDiskV2","defaultStorageSizeMb":65536,"supportedStorageMb":[{"supportedIops":3000,"supportedMaximumIops":80000,"storageSizeMb":32768,"maximumStorageSizeMb":67108864,"supportedThroughput":125,"supportedMaximumThroughput":1200,"defaultIopsTier":"None","supportedIopsTiers":[{"name":"None","iops":0}]}]},{"name":"UltraDisk","defaultStorageSizeMb":65536,"supportedStorageMb":[],"reason":"Specified Storage Edition not supported in this region."}]},{"supportedServerSkus":[{"supportedFeatures":[],"name":"Standard_E2s_v3","vCores":2,"supportedIops":3200,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E4s_v3","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E8s_v3","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E16s_v3","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E32s_v3","vCores":32,"supportedIops":32000,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E48s_v3","vCores":48,"supportedIops":51200,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E64s_v3","vCores":64,"supportedIops":76800,"supportedMemoryPerVcoreMb":6912,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E2ds_v4","vCores":2,"supportedIops":3200,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E4ds_v4","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E8ds_v4","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E16ds_v4","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E20ds_v4","vCores":20,"supportedIops":32000,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E32ds_v4","vCores":32,"supportedIops":51200,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E48ds_v4","vCores":48,"supportedIops":76800,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E64ds_v4","vCores":64,"supportedIops":80000,"supportedMemoryPerVcoreMb":6912,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E2ads_v5","vCores":2,"supportedIops":3750,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E4ads_v5","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E8ads_v5","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E16ads_v5","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E20ads_v5","vCores":20,"supportedIops":32000,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E32ads_v5","vCores":32,"supportedIops":51200,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E48ads_v5","vCores":48,"supportedIops":76800,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E64ads_v5","vCores":64,"supportedIops":80000,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E96ads_v5","vCores":96,"supportedIops":80000,"supportedMemoryPerVcoreMb":7168,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E2ds_v5","vCores":2,"supportedIops":3750,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E4ds_v5","vCores":4,"supportedIops":6400,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E8ds_v5","vCores":8,"supportedIops":12800,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E16ds_v5","vCores":16,"supportedIops":25600,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E20ds_v5","vCores":20,"supportedIops":32000,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E32ds_v5","vCores":32,"supportedIops":51200,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E48ds_v5","vCores":48,"supportedIops":76800,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E64ds_v5","vCores":64,"supportedIops":80000,"supportedMemoryPerVcoreMb":8192,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]},{"supportedFeatures":[],"name":"Standard_E96ds_v5","vCores":96,"supportedIops":80000,"supportedMemoryPerVcoreMb":7168,"supportedZones":["1","2","3"],"supportedHaMode":["SameZone"]}],"name":"MemoryOptimized","defaultSkuName":"Standard_E4ds_v5","supportedStorageEditions":[{"name":"ManagedDisk","defaultStorageSizeMb":131072,"supportedStorageMb":[{"supportedIops":120,"storageSizeMb":32768,"defaultIopsTier":"P4","supportedIopsTiers":[{"name":"P4","iops":120},{"name":"P6","iops":240},{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":240,"storageSizeMb":65536,"defaultIopsTier":"P6","supportedIopsTiers":[{"name":"P6","iops":240},{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":500,"storageSizeMb":131072,"defaultIopsTier":"P10","supportedIopsTiers":[{"name":"P10","iops":500},{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":1100,"storageSizeMb":262144,"defaultIopsTier":"P15","supportedIopsTiers":[{"name":"P15","iops":1100},{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":2300,"storageSizeMb":524288,"defaultIopsTier":"P20","supportedIopsTiers":[{"name":"P20","iops":2300},{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":5000,"storageSizeMb":1048576,"defaultIopsTier":"P30","supportedIopsTiers":[{"name":"P30","iops":5000},{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":2097152,"defaultIopsTier":"P40","supportedIopsTiers":[{"name":"P40","iops":7500},{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":4193280,"defaultIopsTier":"P50","supportedIopsTiers":[{"name":"P50","iops":7500}]},{"supportedIops":7500,"storageSizeMb":4194304,"defaultIopsTier":"P50","supportedIopsTiers":[{"name":"P50","iops":7500}]},{"supportedIops":16000,"storageSizeMb":8388608,"defaultIopsTier":"P60","supportedIopsTiers":[{"name":"P60","iops":16000},{"name":"P70","iops":18000},{"name":"P80","iops":20000}]},{"supportedIops":18000,"storageSizeMb":16777216,"defaultIopsTier":"P70","supportedIopsTiers":[{"name":"P70","iops":18000},{"name":"P80","iops":20000}]},{"supportedIops":20000,"storageSizeMb":33553408,"defaultIopsTier":"P80","supportedIopsTiers":[{"name":"P80","iops":20000}]}]},{"name":"ManagedDiskV2","defaultStorageSizeMb":131072,"supportedStorageMb":[{"supportedIops":3000,"supportedMaximumIops":80000,"storageSizeMb":32768,"maximumStorageSizeMb":67108864,"supportedThroughput":125,"supportedMaximumThroughput":1200,"defaultIopsTier":"None","supportedIopsTiers":[{"name":"None","iops":0}]}]},{"name":"UltraDisk","defaultStorageSizeMb":131072,"supportedStorageMb":[],"reason":"Specified Storage Edition not supported in this region."}]}],"supportedServerVersions":[{"supportedFeatures":[],"name":"11","supportedVersionsToUpgrade":["12","13","14","15","16","17","18"]},{"supportedFeatures":[],"name":"12","supportedVersionsToUpgrade":["13","14","15","16","17","18"]},{"supportedFeatures":[],"name":"13","supportedVersionsToUpgrade":["14","15","16","17","18"]},{"supportedFeatures":[],"name":"14","supportedVersionsToUpgrade":["15","16","17","18"]},{"supportedFeatures":[],"name":"15","supportedVersionsToUpgrade":["16","17","18"]},{"supportedFeatures":[],"name":"16","supportedVersionsToUpgrade":["17","18"]},{"supportedFeatures":[],"name":"17","supportedVersionsToUpgrade":["18"]},{"supportedFeatures":[],"name":"18","supportedVersionsToUpgrade":[]}],"supportedFastProvisioningEditions":[],"supportedFeatures":[{"name":"FastProvisioning","status":"Disabled"},{"name":"ZoneRedundantHa","status":"Disabled"},{"name":"GeoBackup","status":"Enabled"},{"name":"ZoneRedundantHaAndGeoBackup","status":"Disabled"},{"name":"StorageAutoGrowth","status":"Enabled"},{"name":"OnlineResize","status":"Enabled"},{"name":"OfferRestricted","status":"Disabled"},{"name":"IndexTuning","status":"Enabled"},{"name":"Clusters","status":"Enabled"},{"name":"AdaptiveAutoVacuumAutoApply","status":"Enabled"},{"name":"ConfigTuning","status":"Disabled"}],"fastProvisioningSupported":"Disabled","geoBackupSupported":"Enabled","zoneRedundantHaSupported":"Disabled","zoneRedundantHaAndGeoBackupSupported":"Disabled","storageAutoGrowthSupported":"Enabled","onlineResizeSupported":"Enabled","indexTuningSupported":"Enabled"}]}
+WARNING: cli.azure.cli.command_modules.postgresql.commands.custom_commands: Creating PostgreSQL Server 'psql-agent-test2' in group 'rg-lksjdf'...
+WARNING: cli.azure.cli.command_modules.postgresql.commands.custom_commands: Your server 'psql-agent-test2' is using sku 'Standard_B1ms' (Paid Tier). Please refer to https://aka.ms/postgres-pricing for pricing details
+DEBUG: cli.azure.cli.core.auth.credential_adaptor: CredentialAdaptor.get_token_info: scopes=('https://management.core.windows.net//.default',), options={}
+DEBUG: cli.azure.cli.core.auth.msal_credentials: UserCredential.acquire_token: scopes=['https://management.core.windows.net//.default'], claims_challenge=None, kwargs={}
+DEBUG: msal.application: Cache hit an AT
+DEBUG: msal.telemetry: Generate or reuse correlation_id: 5e1941cc-eb62-4ce2-b514-4795de1ba306
+DEBUG: cli.azure.cli.core.sdk.policies: Request URL: 'https://management.azure.com/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-lksjdf/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-agent-test2?api-version=2026-04-01-preview'
+DEBUG: cli.azure.cli.core.sdk.policies: Request method: 'PUT'
+DEBUG: cli.azure.cli.core.sdk.policies: Request headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Type': 'application/json'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '467'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-client-request-id': '8f02984f-981e-11f1-875a-f0a65413a79e'
+DEBUG: cli.azure.cli.core.sdk.policies:     'CommandName': 'postgres flexible-server create'
+DEBUG: cli.azure.cli.core.sdk.policies:     'ParameterSetName': '--resource-group --name --location --sku-name --tier --storage-size --version --public-access --microsoft-entra-auth --password-auth --debug'
+DEBUG: cli.azure.cli.core.sdk.policies:     'User-Agent': 'AZURECLI/2.88.0 (MSI) azsdk-python-core/1.39.0 Python/3.14.5 (Windows-11-10.0.26200-SP0)'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Authorization': '*****'
+DEBUG: cli.azure.cli.core.sdk.policies: Request body:
+DEBUG: cli.azure.cli.core.sdk.policies: {"location": "westus2", "sku": {"name": "Standard_B1ms", "tier": "Burstable"}, "properties": {"authConfig": {"activeDirectoryAuth": "Enabled", "passwordAuth": "Disabled"}, "storage": {"storageSizeGB": 32, "autoGrow": "Disabled"}, "backup": {"backupRetentionDays": 7, "geoRedundantBackup": "Disabled"}, "network": {"publicNetworkAccess": "Enabled"}, "highAvailability": {"mode": "Disabled"}, "createMode": "Create", "version": "16", "administratorLogin": "fluidjay2"}}
+DEBUG: urllib3.connectionpool: Starting new HTTPS connection (1): management.azure.com:443
+DEBUG: urllib3.connectionpool: https://management.azure.com:443 "PUT /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-lksjdf/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-agent-test2?api-version=2026-04-01-preview HTTP/1.1" 400 155
+DEBUG: cli.azure.cli.core.sdk.policies: Response status: 400
+DEBUG: cli.azure.cli.core.sdk.policies: Response headers:
+DEBUG: cli.azure.cli.core.sdk.policies:     'Cache-Control': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Pragma': 'no-cache'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Length': '155'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Content-Type': 'application/json; charset=utf-8'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Expires': '-1'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Content-Type-Options': 'nosniff'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-request-id': '1b5f8f91-73b8-4367-a50f-9c4f90bbe8bd'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-operation-identifier': 'tenantId=c4eb6f86-2026-439f-98d3-b12fb45fe191,objectId=9c9b676a-ae6e-4248-b650-b0c48ea1553e/westus2/51c634ed-a316-48b3-836d-fdeb9b0fad09'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-writes': '199'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-ratelimit-remaining-subscription-global-writes': '2999'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-correlation-request-id': '08664f8f-0379-41ea-a171-cee9d41de3e7'
+DEBUG: cli.azure.cli.core.sdk.policies:     'x-ms-routing-request-id': 'WESTUS2:20260814T202733Z:08664f8f-0379-41ea-a171-cee9d41de3e7'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-Cache': 'CONFIG_NOCACHE'
+DEBUG: cli.azure.cli.core.sdk.policies:     'X-MSEdge-Ref': 'Ref A: 0C71B7691C0A439D8362BBE8B46F5848 Ref B: SN4AA2022301029 Ref C: 2026-08-14T20:27:32Z'
+DEBUG: cli.azure.cli.core.sdk.policies:     'Date': 'Fri, 14 Aug 2026 20:27:32 GMT'
+DEBUG: cli.azure.cli.core.sdk.policies: Response content:
+DEBUG: cli.azure.cli.core.sdk.policies: Body is streamable
+DEBUG: cli.azure.cli.core.azclierror: Traceback (most recent call last):
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\knack/cli.py", line 233, in invoke
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/cli/core/commands/__init__.py", line 677, in execute
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/cli/core/commands/__init__.py", line 820, in _run_jobs_serially
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/cli/core/commands/__init__.py", line 789, in _run_job
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/cli/core/commands/__init__.py", line 335, in __call__
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/cli/core/commands/command_operation.py", line 120, in handler
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/cli/command_modules/postgresql/commands/custom_commands.py", line 193, in flexible_server_create
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/cli/command_modules/postgresql/commands/custom_commands.py", line 273, in _create_server
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/core/tracing/decorator.py", line 119, in wrapper_use_tracer
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/mgmt/postgresqlflexibleservers/operations/_operations.py", line 3392, in begin_create_or_update
+  File "D:\a\_work\1\s\build_scripts\windows\artifacts\cli\Lib\site-packages\azure/mgmt/postgresqlflexibleservers/operations/_operations.py", line 3257, in _create_or_update_initial
+azure.core.exceptions.HttpResponseError: (MissingRequiredParameter) Parameter 'AdministratorLoginPassword' must be specified. This parameter cannot be NULL or empty.
+Code: MissingRequiredParameter
+Message: Parameter 'AdministratorLoginPassword' must be specified. This parameter cannot be NULL or empty.
+
+ERROR: cli.azure.cli.core.azclierror: (MissingRequiredParameter) Parameter 'AdministratorLoginPassword' must be specified. This parameter cannot be NULL or empty.
+Code: MissingRequiredParameter
+Message: Parameter 'AdministratorLoginPassword' must be specified. This parameter cannot be NULL or empty.
+ERROR: az_command_data_logger: (MissingRequiredParameter) Parameter 'AdministratorLoginPassword' must be specified. This parameter cannot be NULL or empty.
+Code: MissingRequiredParameter
+Message: Parameter 'AdministratorLoginPassword' must be specified. This parameter cannot be NULL or empty.
+DEBUG: cli.knack.cli: Event: Cli.PostExecute [<function AzCliLogging.deinit_cmd_metadata_logging at 0x0000020B20FBFB60>]
+INFO: az_command_data_logger: exit code: 1
+INFO: cli.__main__: Command ran in 9.166 seconds (init: 0.099, invoke: 9.067)
+INFO: telemetry.main: Begin splitting cli events and extra events, total events: 1
+INFO: telemetry.main: Finish splitting cli events and extra events, cli events: 1
+INFO: telemetry.save: Save telemetry record of length 4379 in cache file under C:\Users\douga\.azure\telemetry\20260814152733178
+INFO: telemetry.main: Begin creating telemetry upload process.
+INFO: telemetry.process: Creating upload process: "C:\Program Files\Microsoft SDKs\Azure\CLI2\python.exe C:\Program Files\Microsoft SDKs\Azure\CLI2\Lib\site-packages\azure\cli\telemetry\__init__.pyc C:\Users\douga\.azure C:\Users\douga\.azure\telemetry\20260814152733178"
+INFO: telemetry.process: Return from creating process 9416
+INFO: telemetry.main: Finish creating telemetry upload process.

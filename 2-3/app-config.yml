@@ -1,0 +1,92 @@
+id: /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-lksdflkjadf/providers/Microsoft.App/containerapps/agent-api
+identity:
+  principalId: c20e879b-03a2-4c7a-9fcf-cb5526809a5a
+  tenantId: c4eb6f86-2026-439f-98d3-b12fb45fe191
+  type: SystemAssigned
+location: Central US
+name: agent-api
+properties:
+  configuration:
+    activeRevisionsMode: Single
+    dapr: null
+    identitySettings: []
+    ingress:
+      additionalPortMappings: null
+      allowInsecure: false
+      clientCertificateMode: null
+      corsPolicy: null
+      customDomains: null
+      exposedPort: 0
+      external: true
+      fqdn: agent-api.thankfulground-d851e9bc.centralus.azurecontainerapps.io
+      ipSecurityRestrictions: null
+      stickySessions: null
+      targetPort: 8080
+      targetPortHttpScheme: null
+      traffic:
+      - latestRevision: true
+        weight: 100
+      transport: Auto
+    maxInactiveRevisions: null
+    registries:
+    - identity: system
+      passwordSecretRef: ''
+      server: acrd37563cb.azurecr.io
+      username: ''
+    revisionTransitionThreshold: null
+    runtime: null
+    secrets: null
+    service: null
+    targetLabel: ''
+  customDomainVerificationId: D05F68820BECB1D01645D4187A40956BBF02D4375D75308EB0A7B7783814D11E
+  delegatedIdentities: []
+  environmentId: /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-lksdflkjadf/providers/Microsoft.App/managedEnvironments/aca-env-d37563cb
+  eventStreamEndpoint: https://centralus.azurecontainerapps.dev/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-lksdflkjadf/containerApps/agent-api/eventstream
+  latestReadyRevisionName: agent-api--0000002
+  latestRevisionFqdn: agent-api--0000002.thankfulground-d851e9bc.centralus.azurecontainerapps.io
+  latestRevisionName: agent-api--0000002
+  managedEnvironmentId: /subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-lksdflkjadf/providers/Microsoft.App/managedEnvironments/aca-env-d37563cb
+  outboundIpAddresses:
+  - 135.233.127.94
+  patchingMode: Automatic
+  provisioningState: Succeeded
+  runningStatus: Running
+  template:
+    containers:
+    - env:
+      - name: AGENT_DEFAULT_DELAY_MS
+        value: '500'
+      image: acrd37563cb.azurecr.io/agent-api:v1
+      imageType: ContainerImage
+      name: agent-api
+      resources:
+        cpu: 0.5
+        ephemeralStorage: 2Gi
+        memory: 1Gi
+    customMetricsSettings: null
+    initContainers: null
+    revisionSuffix: ''
+    scale:
+      cooldownPeriod: 300
+      maxReplicas: 10
+      minReplicas: 0
+      pollingInterval: 30
+      rules:
+      - http:
+          auth: []
+          metadata:
+            concurrentRequests: '10'
+        name: http-rule
+    serviceBinds: null
+    terminationGracePeriodSeconds: null
+    volumes: null
+  workloadProfileName: Consumption
+resourceGroup: rg-lksdflkjadf
+systemData:
+  createdAt: '2026-08-09T03:29:54.8953207'
+  createdBy: doug.a.crawford@gmail.com
+  createdByType: User
+  lastModifiedAt: '2026-08-09T03:32:22.4558059'
+  lastModifiedBy: doug.a.crawford@gmail.com
+  lastModifiedByType: User
+type: Microsoft.App/containerApps
