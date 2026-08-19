@@ -14,7 +14,29 @@ def connect_to_redis() -> redis.Redis:
     clear_screen()
 
     # BEGIN CONNECTION CODE SECTION
+    try:
+        # Azure Managed Redis using Microsoft Entra ID authentication
+        redis_host = os.getenv("REDIS_HOST")
 
+        # create_from_default_azure_credential uses DefaultAzureCredential to
+        # acquire and refresh a Microsoft Entra token for Redis.
+        credential_provider = create_from_default_azure_credential(
+            ("https://redis.azure.com/.default",),
+        )
+
+        r = redis.Redis(
+            host=redis_host,
+            port=10000,  # Azure Managed Redis uses port 10000
+            ssl=True,
+            decode_responses=True, # Decode responses to strings
+            credential_provider=credential_provider,
+            socket_timeout=30,  # Add timeout for better reliability
+            socket_connect_timeout=30,
+        )
+
+        print(f"Connected to Redis at {redis_host}")
+        input("\nPress Enter to continue...")
+        return r
 
 
     # END CONNECTION CODE SECTION
@@ -38,19 +60,76 @@ def connect_to_redis() -> redis.Redis:
         sys.exit(1)
 
 # BEGIN STORE AND RETRIEVE CODE SECTION
+def store_hash_data(r, key, value) -> None:
+    """Store a hash data in Redis"""
+    clear_screen()
+    print(f"Storing hash data for key: {key}")
+    result = r.hset(key, mapping=value) # Store hash data
+    if result > 0: # New fields were added
+        print(f"Data stored successfully under key '{key}' ({result} new fields added)")
+    else:
+        print(f"Data updated successfully under key '{key}' (all fields already existed)")
+    input("\nPress Enter to continue...")
 
+def retrieve_hash_data(r, key) -> None:
+    """Retrieve hash data from Redis"""
+    clear_screen()
+    print(f"Retrieving hash data for key: {key}")
+    retrieved_value = r.hgetall(key) # Retrieve hash data
+    if retrieved_value:
+        print("\nRetrieved hash data:")
+        for field, value in retrieved_value.items():
+            print(f"  {field}: {value}")
+    else:
+        print(f"Key '{key}' does not exist.")
+
+    input("\nPress Enter to continue...")
 
 
 # END STORE AND RETRIEVE CODE SECTION
 
 # BEGIN EXPIRATION CODE SECTION
+def set_expiration(r, key) -> None:
+    """Set an expiration time for a key"""
+    clear_screen()
+    print("Set expiration time for a key")
+    # Set expiration time, 1 hour equals 3600 seconds
+    expiration = int(input("Enter expiration time in seconds (default 3600): ") or 3600)
+    result = r.expire(key, expiration) # Set expiration time
+    if result:
+        print(f"Expiration time of {expiration} seconds set for key '{key}'")
+    else:
+        print(f"Key '{key}' does not exist. Expiration not set.")
 
+    input("\nPress Enter to continue...")
+
+def retrieve_expiration(r, key) -> None:
+    """Retrieve TTL of a key"""
+    clear_screen()
+    print(f"Retrieving the current TTL of {key}...")
+    ttl = r.ttl(key) # Get current TTL
+    if ttl == -2: # Key does not exist
+        print(f"\nKey '{key}' does not exist.")
+    elif ttl == -1: # No expiration set
+        print(f"\nKey '{key}' has no expiration set (persists indefinitely).")
+    else:
+        print(f"\nCurrent TTL for '{key}': {ttl} seconds")
+    input("\nPress Enter to continue...")
 
 
 # END EXPIRATION CODE SECTION
 
 # BEGIN DELETE CODE SECTION
-
+def delete_key(r, key) -> None:
+    """Delete a key"""
+    clear_screen()
+    print(f"Deleting key: {key}...")
+    result = r.delete(key) # Delete the key
+    if result == 1:
+        print(f"Key '{key}' deleted successfully.")
+    else:
+        print(f"Key '{key}' does not exist.")
+    input("\nPress Enter to continue...")
 
 
 # END DELETE CODE SECTION
