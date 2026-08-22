@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flask: app.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/solution/client/app.py",
+            "cwd": "${workspaceFolder}/solution/client",
+            "envFile": "${workspaceFolder}/solution/.env",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

@@ -2,8 +2,8 @@
 # Change the values of these variables as needed.
 # =============================================================================
 
-rg = "rg-amr-vectorsearch"  # Resource Group name
-location = "centralus"   # Azure region for the resources
+rg = "rg-amr-vectorsearch132"  # Resource Group name
+location = "eastus2"   # Azure region for the resources
 
 # =============================================================================
 # DON'T CHANGE ANYTHING BELOW THIS LINE.
