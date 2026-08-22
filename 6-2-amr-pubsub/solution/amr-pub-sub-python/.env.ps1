@@ -1,0 +1,1 @@
+$env:REDIS_HOST = "amr-exercise-d37563cb.centralus.redis.azure.net"
