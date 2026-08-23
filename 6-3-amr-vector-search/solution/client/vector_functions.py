@@ -24,7 +24,26 @@ VECTOR_INDEX_NAME = "idx:products"
 
 
 # BEGIN CONNECTION CODE SECTION
+def get_client() -> redis.Redis:
+    """Create a Redis client for Azure Managed Redis using Microsoft Entra ID."""
+    redis_host = os.environ.get("REDIS_HOST")
 
+    if not redis_host:
+        raise ValueError("REDIS_HOST environment variable must be set")
+
+    credential_provider = create_from_default_azure_credential(
+        ("https://redis.azure.com/.default",),
+    )
+
+    return redis.Redis(
+        host=redis_host,
+        port=10000,
+        ssl=True,
+        decode_responses=False,
+        credential_provider=credential_provider,
+        socket_timeout=30,
+        socket_connect_timeout=30,
+    )
 
 # END CONNECTION CODE SECTION
 
@@ -38,7 +57,38 @@ class VectorManager:
         self._create_vector_index()
 
     # BEGIN CREATE VECTOR INDEX CODE SECTION
+def _create_vector_index(self):
+    """Create a RediSearch index for product semantic search."""
+    try:
+        schema = (
+            TextField("name"),
+            TextField("category"),
+            TextField("product_id"),
+            VectorField(
+                "embedding",
+                "HNSW",
+                {
+                    "TYPE": "FLOAT32",
+                    "DIM": VECTOR_DIM,
+                    "DISTANCE_METRIC": "COSINE",
+                },
+            ),
+        )
 
+        definition = IndexDefinition(
+            prefix=["product:"],
+            index_type=IndexType.HASH,
+        )
+
+        self.r.ft(VECTOR_INDEX_NAME).create_index(
+            fields=schema,
+            definition=definition,
+        )
+    except redis.ResponseError as e:
+        if "already exists" not in str(e):
+            raise Exception(f"Error creating vector index: {e}")
+    except Exception as e:
+        raise Exception(f"Error creating vector index: {e}")
 
 
     # END CREATE VECTOR INDEX CODE SECTION
@@ -65,7 +115,6 @@ class VectorManager:
             return True, f"Product updated successfully under key '{vector_key}'"
         except Exception as e:
             return False, f"Error storing product: {e}"
-
 
     # END STORE PRODUCT CODE SECTION
 
@@ -139,6 +188,7 @@ class VectorManager:
             return True, similarities
         except Exception as e:
             return False, f"Error searching products: {e}"
+
 
 
     # END SEARCH SIMILAR PRODUCTS CODE SECTION
