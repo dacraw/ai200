@@ -31,6 +31,11 @@ def get_client() -> redis.Redis:
     if not redis_host:
         raise ValueError("REDIS_HOST environment variable must be set")
 
+    # Local redis-stack container (docker-compose.yml) has no Entra ID or
+    # TLS in front of it, so skip straight to a plain connection.
+    if redis_host in ("localhost", "127.0.0.1"):
+        return redis.Redis(host=redis_host, port=6379, decode_responses=False)
+
     credential_provider = create_from_default_azure_credential(
         ("https://redis.azure.com/.default",),
     )
@@ -57,38 +62,38 @@ class VectorManager:
         self._create_vector_index()
 
     # BEGIN CREATE VECTOR INDEX CODE SECTION
-def _create_vector_index(self):
-    """Create a RediSearch index for product semantic search."""
-    try:
-        schema = (
-            TextField("name"),
-            TextField("category"),
-            TextField("product_id"),
-            VectorField(
-                "embedding",
-                "HNSW",
-                {
-                    "TYPE": "FLOAT32",
-                    "DIM": VECTOR_DIM,
-                    "DISTANCE_METRIC": "COSINE",
-                },
-            ),
-        )
+    def _create_vector_index(self):
+        """Create a RediSearch index for product semantic search."""
+        try:
+            schema = (
+                TextField("name"),
+                TextField("category"),
+                TextField("product_id"),
+                VectorField(
+                    "embedding",
+                    "HNSW",
+                    {
+                        "TYPE": "FLOAT32",
+                        "DIM": VECTOR_DIM,
+                        "DISTANCE_METRIC": "COSINE",
+                    },
+                ),
+            )
 
-        definition = IndexDefinition(
-            prefix=["product:"],
-            index_type=IndexType.HASH,
-        )
+            definition = IndexDefinition(
+                prefix=["product:"],
+                index_type=IndexType.HASH,
+            )
 
-        self.r.ft(VECTOR_INDEX_NAME).create_index(
-            fields=schema,
-            definition=definition,
-        )
-    except redis.ResponseError as e:
-        if "already exists" not in str(e):
+            self.r.ft(VECTOR_INDEX_NAME).create_index(
+                fields=schema,
+                definition=definition,
+            )
+        except redis.ResponseError as e:
+            if "already exists" not in str(e):
+                raise Exception(f"Error creating vector index: {e}")
+        except Exception as e:
             raise Exception(f"Error creating vector index: {e}")
-    except Exception as e:
-        raise Exception(f"Error creating vector index: {e}")
 
 
     # END CREATE VECTOR INDEX CODE SECTION
