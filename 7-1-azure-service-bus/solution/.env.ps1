@@ -1,0 +1,1 @@
+$env:SERVICE_BUS_FQDN = "sbns-exercise-d37563cb.servicebus.windows.net"
