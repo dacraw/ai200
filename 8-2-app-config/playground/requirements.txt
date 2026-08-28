@@ -1,0 +1,6 @@
+azure-appconfiguration
+azure-appconfiguration-provider
+azure-identity
+featuremanagement
+flask
+gunicorn
