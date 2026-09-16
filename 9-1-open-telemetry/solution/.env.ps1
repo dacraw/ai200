@@ -1,0 +1,2 @@
+$env:APPLICATIONINSIGHTS_CONNECTION_STRING = "InstrumentationKey=87c5a008-d98d-4c20-a8f2-48ce965b7faf;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=57bafefe-6232-4a7c-8e3b-78ae70dd0d8b"
+$env:OTEL_SERVICE_NAME = "document-pipeline-app"

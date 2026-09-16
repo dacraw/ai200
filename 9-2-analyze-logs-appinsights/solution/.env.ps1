@@ -1,0 +1,6 @@
+$env:APPLICATIONINSIGHTS_CONNECTION_STRING = "InstrumentationKey=58039bc3-66c4-4281-b2d5-4fdb8063c929;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=c4aa9249-b692-4520-a842-ed6702b56aa6"
+$env:OTEL_SERVICE_NAME = "document-pipeline-app"
+$env:RESOURCE_GROUP = "rg-analyzelogs"
+$env:APPINSIGHTS_NAME = "appi-exercise-d37563cb"
+$env:APPINSIGHTS_RESOURCE_ID = "/subscriptions/8da4001e-874d-477d-aa01-9f66fcc0b817/resourceGroups/rg-analyzelogs/providers/microsoft.insights/components/appi-exercise-d37563cb"
+$env:ALERT_EMAIL = "doug.a.crawford@gmail.com"
