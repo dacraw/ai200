@@ -61,7 +61,6 @@ def get_all_containers():
     }
 
 
-# BEGIN STORE VECTOR DOCUMENT FUNCTION
 def store_vector_document(
     container_name: str,
     document_id: str,
@@ -110,8 +109,6 @@ def store_vector_document(
         "document_id": document_id,
         "ru_charge": float(ru_charge)
     }
-# END STORE VECTOR DOCUMENT FUNCTION
-
 
 def store_to_all_containers(
     document_id: str,
@@ -194,174 +191,18 @@ def bulk_load_documents(documents: list, progress_callback=None) -> dict:
 
 
 # BEGIN VECTOR SIMILARITY SEARCH FUNCTION
-# def vector_similarity_search(
-#         container_name: str,
-#         query_embedding: list,
-#         top_n: int = 5
-# ):
-#     container = get_container(container_name)
 
-#     start_time = time.time()
-
-#     query = """
-#         SELECT TOP @topN
-#             c.id, c.documentId, c.content, VectorDistance(c.embedding, @queryEmbedding)
-#         FROM c
-#         ORDER BY VectorDistance(c.embedding, @queryEmbedding)
-#     """
-
-#     items = list(container.query_items(
-#         query=query,
-#         parameters=[
-#             {"name":"@queryEmbedding", "value": query_embedding},
-#             {"name":"@topN", "value": top_n}
-#         ],
-#         enable_cross_partition_query=True
-#     ))
-
-#     end_time = time.time()
-#     execution_time_ms = (end_time - start_time) * 1000
-
-#     ru_charge = 0.0
-#     try:
-#         ru_charge = float(container.client_connection.last_response_headers.get("x-ms-request-charge", 0))
-#     except Exception as e:
-#         pass
-
-#     results = [
-#         {
-#             "results": results,
-#             "ru_charge": ru_charge,
-#             "execution_time_ms": execution_time_ms
-#         }
-#     ]
-def vector_similarity_search(
-    container_name: str,
-    query_embedding: list,
-    top_n: int = 5
-) -> dict:
-    """
-    Find documents most similar to the query using vector distance.
-
-    This function performs a vector similarity search using the VectorDistance
-    function and tracks the RU consumption and execution time. Results are
-    ordered by distance (lowest = most similar).
-
-    Args:
-        container_name: Name of the container to search
-        query_embedding: 256-dimensional query vector
-        top_n: Number of results to return
-
-    Returns:
-        Dictionary containing results, ru_charge, and execution_time_ms
-    """
-    container = get_container(container_name)
-
-    # Track execution time for performance comparison
-    start_time = time.time()
-
-    # The VectorDistance function calculates distance between vectors
-    # Using cosine distance: 0 = identical, 2 = opposite
-    # Results ordered by distance ascending (most similar first)
-    query = """
-        SELECT TOP @topN
-            c.id,
-            c.documentId,
-            c.content,
-            c.metadata,
-            VectorDistance(c.embedding, @queryVector) AS similarityScore
-        FROM c
-        ORDER BY VectorDistance(c.embedding, @queryVector)
-    """
-
-    items = list(container.query_items(
-        query=query,
-        parameters=[
-            {"name": "@topN", "value": top_n},
-            {"name": "@queryVector", "value": query_embedding}
-        ],
-        enable_cross_partition_query=True
-    ))
-
-    end_time = time.time()
-    execution_time_ms = (end_time - start_time) * 1000
-
-    # Get RU charge from the query - note: this is approximate for multi-page results
-    # For accurate RU tracking in production, use Azure Monitor
-    ru_charge = 0.0
-    try:
-        # The last_response_headers contains the RU charge
-        ru_charge = float(container.client_connection.last_response_headers.get(
-            'x-ms-request-charge', 0
-        ))
-    except Exception:
-        pass  # RU tracking may not be available in all scenarios
-
-    results = [
-        {
-            "chunk_id": item["id"],
-            "document_id": item["documentId"],
-            "content": item["content"],
-            "metadata": item["metadata"],
-            "similarity_score": item["similarityScore"]
-        }
-        for item in items
-    ]
-
-    return {
-        "results": results,
-        "ru_charge": ru_charge,
-        "execution_time_ms": round(execution_time_ms, 2)
-    }
 
 
 # END VECTOR SIMILARITY SEARCH FUNCTION
 
 
 # BEGIN COMPARE INDEX PERFORMANCE FUNCTION
-def compare_index_performance(
-        query_embedding: list,
-        top_n: int = 5
-) -> dict:
-    """
-    hi
-    """
 
-    comparison={}
-
-    for index_type, container_name in [
-        ("flat", CONTAINER_FLAT),
-        ("quantizedFlat", CONTAINER_QUANTIZED),
-        ("diskANN", CONTAINER_DISKANN)
-    ]:
-        try:
-            result = vector_similarity_search(container_name, query_embedding, top_n)
-            comparison[index_type] = {
-                "container": container_name,
-                "results": result["results"],
-                "ru_charge":result ["ru_charge"],
-                "execution_time_ms": result["execution_time_ms"],
-                "result_count": len(result["results"]),
-                "status": "success"
-            }
-        except Exception as e:
-           comparison[index_type] = {
-                "container": container_name,
-                "results": [],
-                "ru_charge": 0,
-                "execution_time_ms": 0,
-                "result_count": 0,
-                "status": "error",
-                "error": str(e)
-            }
-
-    return comparison
 
 
 # END COMPARE INDEX PERFORMANCE FUNCTION
 
-
-# BEGIN FILTERED VECTOR SEARCH FUNCTION
 def filtered_vector_search(
     container_name: str,
     query_embedding: list,
@@ -445,8 +286,6 @@ def filtered_vector_search(
         "ru_charge": ru_charge,
         "execution_time_ms": round(execution_time_ms, 2)
     }
-# END FILTERED VECTOR SEARCH FUNCTION
-
 
 def compare_filtered_performance(
     query_embedding: list,
