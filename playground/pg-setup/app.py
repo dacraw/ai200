@@ -2,33 +2,17 @@ from flask import Flask, json
 import uuid
 import psycopg
 from psycopg import sql
-from azure.identity import DefaultAzureCredential
+
 import logging
 import os
+from text_functions import chunk_document
+from db_functions import create_document, get_all_documents, get_connection
 
 app = Flask(__name__)
 logging.basicConfig()
 logger = logging.getLogger()
 
-def get_connection():
 
-    try:
-
-        credential = DefaultAzureCredential()
-        token = credential.get_token("https://ossrdbms-aad.database.windows.net/.default")
-
-        return psycopg.connect(
-            host=os.getenv('DB_HOST'),
-            port=5432,
-            dbname=os.getenv('DB_NAME'),
-            user=os.getenv('DB_USER'),
-            password=token.token,
-            sslmode="require",
-            connect_timeout=10
-        )
-    except Exception as e:
-        logger.exception(f"exception :{e}")
-        raise
 
 def create_conversations_table():
     schema = """
@@ -138,6 +122,7 @@ def drop_table(table_name: str) -> None:
 def drop_all_tables():
     drop_table("conversations")
     drop_table("messages")
+    drop_table("documents")
 
 def create_vector_extension():
     with get_connection() as conn:
@@ -152,8 +137,22 @@ def create_documents_table():
                     id BIGSERIAL PRIMARY KEY,
                     title TEXT NOT NULL,
                     source TEXT,
-                    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+                    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
                     metadata JSONB DEFAULT '{}'::jsonb
+                )
+            """)
+
+def create_document_chunks_table():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE document_chunks(
+                    id BIGSERIAL PRIMARY KEY,
+                    document_id BIGINT NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+                    chunk_index INT NOT NULL,
+                    content TEXT NOT NULL,
+                    embedding vector(384),
+                    UNIQUE (document_id, chunk_index)
                 )
             """)
 
@@ -182,11 +181,27 @@ def get_messages_by_conversation_id(conversation_id: int):
 
 if __name__ == "__main__":
     try:
+        # Config DB
         create_vector_extension()
 
+        # DB Schema
         create_conversations_table()
         create_messages_table()
+        create_documents_table()
         create_indexes()
+
+        # Upload embedding document chunks
+        chunked = chunk_document("chihuahua.txt")
+
+        uploaded_document = create_document(chunked.title, chunked.source)
+
+        document_list = get_all_documents()
+
+        for doc in document_list:
+            print(f"doc info: {doc["document_id"]}")    
+
+        # for chunk in chunked.chunks:
+        #     print(f"chunk: {chunk}")
 
         conversation = create_conversation("dougie")
         print(f"Conversation details: {json.dumps(conversation, indent=2, default=str)}")
@@ -199,6 +214,7 @@ if __name__ == "__main__":
 
         for msg in messages:
             print(f"Message id #{msg["message_id"]}:[{msg["role"]}] {msg["message_content"]}")
+
     except Exception as e:
         print(f"Exception: {e}")
     finally:
