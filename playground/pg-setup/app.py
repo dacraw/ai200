@@ -4,6 +4,7 @@ import psycopg
 from psycopg import sql
 from azure.identity import DefaultAzureCredential
 import logging
+import os
 
 app = Flask(__name__)
 logging.basicConfig()
@@ -17,10 +18,10 @@ def get_connection():
         token = credential.get_token("https://ossrdbms-aad.database.windows.net/.default")
 
         return psycopg.connect(
-            host="pg-vectorsearch.postgres.database.azure.com",
+            host=os.getenv('DB_HOST'),
             port=5432,
-            dbname="postgres",
-            user="doug.a.crawford_gmail.com#EXT#@dougacrawfordgmail.onmicrosoft.com",
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
             password=token.token,
             sslmode="require",
             connect_timeout=10
@@ -149,7 +150,10 @@ def create_documents_table():
             cur.execute("""
                 CREATE TABLE documents(
                     id BIGSERIAL PRIMARY KEY,
-                    embedding 
+                    title TEXT NOT NULL,
+                    source TEXT,
+                    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+                    metadata JSONB DEFAULT '{}'::jsonb
                 )
             """)
 
