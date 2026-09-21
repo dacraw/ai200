@@ -5,8 +5,8 @@ from psycopg import sql
 
 import logging
 import os
-from text_functions import chunk_document
-from db_functions import create_document, get_all_documents, get_connection
+from text_functions import chunk_document, embed_chunk
+from db_functions import create_document, get_all_documents, get_connection, create_document_chunk, get_document_chunks
 
 app = Flask(__name__)
 logging.basicConfig()
@@ -124,6 +124,9 @@ def drop_all_tables():
     drop_table("messages")
     drop_table("documents")
 
+    # keeping this to prevent super chunking and costing model tokens
+    # drop_table("document_chunks")
+
 def create_vector_extension():
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -181,27 +184,47 @@ def get_messages_by_conversation_id(conversation_id: int):
 
 if __name__ == "__main__":
     try:
+        print("Creating vector extension if needed")
         # Config DB
         create_vector_extension()
 
+        print("Creating tables and indexes")
         # DB Schema
         create_conversations_table()
         create_messages_table()
         create_documents_table()
+        # create_document_chunks_table()
         create_indexes()
 
+        print("Chunking document")
         # Upload embedding document chunks
         chunked = chunk_document("chihuahua.txt")
 
+        print(f"Uploading document {chunked.title}")
         uploaded_document = create_document(chunked.title, chunked.source)
+
+        # reenable later
+        print("Embedding chunks and uploading to database")
+        for i, chunk in enumerate(chunked.chunks):
+            embedded_chunk = embed_chunk(chunk)
+            create_document_chunk(
+                uploaded_document["document_id"],
+                i,
+                chunk,
+                embedded_chunk
+        )
 
         document_list = get_all_documents()
 
         for doc in document_list:
             print(f"doc info: {doc["document_id"]}")    
 
-        # for chunk in chunked.chunks:
-        #     print(f"chunk: {chunk}")
+        chunk_list = get_document_chunks(uploaded_document["document_id"])
+
+        print(f"Chunk info for document: {doc["document_id"]}")
+        for chunk in chunk_list:
+            print(f"Chunk id: {chunk["chunk_id"]}")
+
 
         conversation = create_conversation("dougie")
         print(f"Conversation details: {json.dumps(conversation, indent=2, default=str)}")

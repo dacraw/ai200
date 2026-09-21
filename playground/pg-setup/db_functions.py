@@ -64,4 +64,34 @@ def get_all_documents() -> list[dict]:
                 } for row in rows
             ]
 
+def create_document_chunk(
+    document_id: int,
+    chunk_index: int,
+    content: str,
+    embedding: list[str]
+) -> dict:
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO document_chunks(document_id,chunk_index,content,embedding)
+                VALUES(%s,%s,%s,%s)
+            """, (document_id, chunk_index, content, embedding))
 
+def get_document_chunks(document_id: int):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT c.id, c.content, c.document_id, c.chunk_index
+                FROM document_chunks c
+                WHERE c.document_id = %s
+            """, (
+                document_id,
+            ))
+            rows = cur.fetchall()
+
+            return [{
+                "chunk_id": row[0],
+                "content": row[1],
+                "document_id": row[2],
+                "chunk_index": row[3]
+            } for row in rows]
