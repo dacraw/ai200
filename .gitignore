@@ -1,3 +1,5 @@
 .venv
 *.env
 secrets.yaml
+*.env.ps1
+local.settings.json

@@ -1,0 +1,6 @@
+psycopg[binary]
+flask
+azure-identity
+langchain-text-splitters
+tiktoken
+openai

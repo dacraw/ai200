@@ -1,0 +1,205 @@
+from flask import Flask, json
+import uuid
+import psycopg
+from psycopg import sql
+
+import logging
+import os
+from text_functions import chunk_document, embed_chunk
+from db_functions import create_document, get_all_documents, get_connection, create_document_chunk, get_document_chunks, create_message,get_messages_by_conversation_id
+
+app = Flask(__name__)
+logging.basicConfig()
+logger = logging.getLogger()
+
+
+
+def create_conversations_table():
+    schema = """
+        CREATE TABLE conversations(
+            id BIGSERIAL PRIMARY KEY,
+            session_id UUID NOT NULL,
+            user_id VARCHAR(255) NOT NULL,
+            started_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            ended_at TIMESTAMP WITH TIME ZONE,
+            metadata JSONB DEFAULT '{}'::jsonb
+        )
+    """
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(schema)
+
+def create_conversation(user_id: str, metadata: dict = None):
+    session_id = uuid.uuid4()
+    query = """
+        INSERT INTO conversations(
+            session_id,
+            user_id,
+            metadata
+        )
+        VALUES (%s, %s, %s)
+        RETURNING id, session_id, started_at
+    """
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(query, (str(session_id), user_id, psycopg.types.json.Json(metadata or {})))
+
+            row = cur.fetchone()
+            conn.commit()
+
+            return {
+                "conversation_id": row[0],
+                "session_id": str(row[1]),
+                "started_at": row[2].isoformat()
+            }
+
+def create_messages_table():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE messages(
+                    id BIGSERIAL PRIMARY KEY,
+                    conversation_id BIGINT NOT NULL REFERENCES conversations(id),
+                    role VARCHAR(50) NOT NULL CHECK (role IN ('user','system','assistant')),
+                    content TEXT NOT NULL,
+                    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+
+
+
+
+def create_indexes():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE INDEX idx_messages_conversation_id ON messages(conversation_id);
+                CREATE INDEX idx_messages_create_at ON messages(created_at);
+                CREATE INDEX idx_messages_conversation_created ON messages(conversation_id, created_at)
+            """)
+
+def drop_index(index_name: str) -> None:
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                sql.SQL("DROP INDEX IF EXISTS {}").format(sql.Identifier(index_name))
+            )
+
+
+def drop_table(table_name: str) -> None:
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                sql.SQL("DROP TABLE IF EXISTS {} CASCADE").format(sql.Identifier(table_name))
+            )
+
+def drop_all_tables():
+    drop_table("conversations")
+    drop_table("messages")
+    drop_table("documents")
+
+    # keeping this to prevent super chunking and costing model tokens
+    drop_table("document_chunks")
+
+def create_vector_extension():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
+
+def create_documents_table():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE documents(
+                    id BIGSERIAL PRIMARY KEY,
+                    title TEXT NOT NULL,
+                    source TEXT,
+                    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+                    metadata JSONB DEFAULT '{}'::jsonb
+                )
+            """)
+
+def create_document_chunks_table():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE document_chunks(
+                    id BIGSERIAL PRIMARY KEY,
+                    document_id BIGINT NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+                    chunk_index INT NOT NULL,
+                    content TEXT NOT NULL,
+                    embedding vector(384),
+                    UNIQUE (document_id, chunk_index)
+                )
+            """)
+
+
+
+
+if __name__ == "__main__":
+    try:
+        print("Creating vector extension if needed")
+        # Config DB
+        create_vector_extension()
+
+        print("Creating tables and indexes")
+        # DB Schema
+        create_conversations_table()
+        create_messages_table()
+        create_documents_table()
+        create_document_chunks_table()
+        create_indexes()
+
+        print("Chunking document")
+        # Upload embedding document chunks
+        chunked = chunk_document("chihuahua.txt")
+
+        print(f"Uploading document {chunked.title}")
+        uploaded_document = create_document(chunked.title, chunked.source)
+
+        # reenable later
+        print("Embedding chunks and uploading to database")
+        for i, chunk in enumerate(chunked.chunks):
+            embedded_chunk = embed_chunk(chunk)
+            create_document_chunk(
+                uploaded_document["document_id"],
+                i,
+                chunk,
+                embedded_chunk
+        )
+
+        document_list = get_all_documents()
+
+        for doc in document_list:
+            print(f"doc info: {doc["document_id"]}")    
+
+        chunk_list = get_document_chunks(uploaded_document["document_id"])
+
+        print(f"Chunk info for document: {doc["document_id"]}")
+        for chunk in chunk_list:
+            print(f"Chunk id: {chunk["chunk_id"]}")
+
+
+        conversation = create_conversation("dougie")
+        print(f"Conversation details: {json.dumps(conversation, indent=2, default=str)}")
+
+        conversation_id = conversation.get("conversation_id")
+
+        message = create_message(conversation_id,"system","You are a helpful assistant who brings up dogs as much as possible.")
+
+        messages = get_messages_by_conversation_id(conversation_id)
+
+        for msg in messages:
+            print(f"Message id #{msg["message_id"]}:[{msg["role"]}] {msg["message_content"]}")
+
+    except Exception as e:
+        print(f"Exception: {e}")
+    finally:
+
+        input("Press enter to drop all tables....")
+
+        drop_all_tables()
+
+

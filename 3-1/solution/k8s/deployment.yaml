@@ -18,11 +18,11 @@ spec: # Desired state specification for the deployment
         version: v1
     spec: # Defines what the pod should contain
       # BEGIN: Container specification
-      containers:
+      containers: # List of containers to run in the pod
         - name: api
-          image: ACR_ENDPOINT/aks-api:latest
-          imagePullPolicy: Always
-          ports:
+          image: ACR_ENDPOINT/aks-api:latest # Container image from ACR
+          imagePullPolicy: Always # Always pull the latest image from registry
+          ports: # Ports exposed by the container
             - name: http
               containerPort: 8000
               protocol: TCP
@@ -38,15 +38,14 @@ spec: # Desired state specification for the deployment
               value: "2024-12-01-preview"
 
           # BEGIN: Liveness Probe Configuration
-          livenessProbe:
+          livenessProbe: # Detects if container is alive or needs restart
             httpGet:
-              path: /healthz
+              path: /healthz # Health check endpoint path
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 10 # Seconds to wait before first check
             periodSeconds: 30
             timeoutSeconds: 5
-            failureThreshold: 3
-
+            failureThreshold: 3 # Consecutive failures before restarting container
           # END: Liveness Probe Configuration
 
           readinessProbe: # Detects if container is ready to receive traffic
@@ -59,12 +58,11 @@ spec: # Desired state specification for the deployment
             failureThreshold: 3 # Consecutive failures before removing from service
 
           # BEGIN: Resource Limits Configuration
-          resources:
-            requests:
+          resources: # CPU and memory resource specifications
+            requests: # Minimum resources guaranteed to the container
               memory: "256Mi"
               cpu: "250m"
-            limits:
+            limits: # Maximum resources the container can use
               memory: "512Mi"
               cpu: "500m"
-
           # END: Resource Limits Configuration
