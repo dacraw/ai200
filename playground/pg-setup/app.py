@@ -6,7 +6,7 @@ from psycopg import sql
 import logging
 import os
 from text_functions import chunk_document, embed_chunk
-from db_functions import create_document, get_all_documents, get_connection, create_document_chunk, get_document_chunks
+from db_functions import create_document, get_all_documents, get_connection, create_document_chunk, get_document_chunks, create_message,get_messages_by_conversation_id
 
 app = Flask(__name__)
 logging.basicConfig()
@@ -68,31 +68,7 @@ def create_messages_table():
                 )
             """)
 
-def create_message(
-        conversation_id: int, 
-        role: str,
-        content: str
-):
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("""
-                INSERT INTO messages(
-                    conversation_id, role, content
-                )
-                VALUES (%s, %s, %s)
-                RETURNING id, content, created_at
-            """,
-            (conversation_id, role, content)
-            )
 
-            row = cur.fetchone()
-            conn.commit()
-
-            return {
-                "conversation_id": row[0],
-                "role": row[1],
-                "content": row[2]
-            }
 
 
 def create_indexes():
@@ -125,7 +101,7 @@ def drop_all_tables():
     drop_table("documents")
 
     # keeping this to prevent super chunking and costing model tokens
-    # drop_table("document_chunks")
+    drop_table("document_chunks")
 
 def create_vector_extension():
     with get_connection() as conn:
@@ -159,27 +135,7 @@ def create_document_chunks_table():
                 )
             """)
 
-def get_messages_by_conversation_id(conversation_id: int):
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("""
-                SELECT m.id, m.content, m.role
-                FROM messages m
-                WHERE m.conversation_id = %s
-                ORDER BY m.created_at
-                LIMIT 10
-            
-            """, (conversation_id,))
 
-            rows = cur.fetchall()
-
-            return [
-                {
-                    "message_id": row[0],
-                    "message_content": row[1],
-                    "role": row[2]
-                } for row in rows
-            ]
 
 
 if __name__ == "__main__":
@@ -193,7 +149,7 @@ if __name__ == "__main__":
         create_conversations_table()
         create_messages_table()
         create_documents_table()
-        # create_document_chunks_table()
+        create_document_chunks_table()
         create_indexes()
 
         print("Chunking document")
