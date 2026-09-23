@@ -1,7 +1,8 @@
 from azure.core.exceptions import ClientAuthenticationError
 from azure.identity import DefaultAzureCredential
-from azure.servicebus import ServiceBusClient, ServiceBusMessage
+from azure.servicebus import ServiceBusClient, ServiceBusMessage, ServiceBusReceiveMode
 import os
+import json
 
 
 def get_client():
@@ -33,10 +34,32 @@ def get_client():
 
 
 with get_client() as client:
-    with client.get_queue_sender("inference-requests") as queue_sender:
-        queue_sender.send_messages(
-            ServiceBusMessage("queue message body")
-        )
+    # with client.get_queue_sender("inference-requests") as queue_sender:
+    #     queue_sender.send_messages(
+    #         ServiceBusMessage("queue message body")
+    #     )
+
+    # with client.get_queue_receiver(
+    #     queue_name="inference-requests",
+    #     receive_mode=ServiceBusReceiveMode.PEEK_LOCK,
+    #     max_wait_time=5
+    # ) as queue_receiver:
+    #     for msg in queue_receiver:
+    #         try:
+    #             print(msg)
+    #             queue_receiver.complete_message(msg)
+    #         except json.JSONDecodeError:
+    #             queue_receiver.dead_letter_message(
+    #                 msg,
+    #                 reason="MalformedPayload",
+    #                 error_description="Message body is not valid JSON"
+    #             )
+    #         except Exception as e:
+    #             queue_receiver.dead_letter_message(
+    #                 msg,
+    #                 reason="Exception",
+    #                 error_description=e
+    #             )
 
     with client.get_topic_sender("inference-results") as topic_sender:
         topic_sender.send_messages(
