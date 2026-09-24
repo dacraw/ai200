@@ -66,6 +66,14 @@ with get_client() as client:
             ServiceBusMessage("topic message body")
         )
 
+with client.get_subscription_receiver(
+    topic_name="inference-results",
+    subscription_name="notifications",
+    max_wait_time=10
+) as receiver:
+    for msg in receiver:
+        print(str(msg))
+        receiver.complete_message(msg)
     with client.get_subscription_receiver(
         topic_name="inference-results",
         subscription_name="notifications",
