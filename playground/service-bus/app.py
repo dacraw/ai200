@@ -20,7 +20,8 @@ with ServiceBusClient(
 
 with client.get_subscription_receiver(
     topic_name="inference-results",
-    subscription_name="notifications"
+    subscription_name="notifications",
+    max_wait_time=10
 ) as receiver:
     for msg in receiver:
         print(str(msg))
