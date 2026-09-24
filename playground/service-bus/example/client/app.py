@@ -5,7 +5,7 @@ import logging
 import os
 from flask import Flask, render_template, redirect, url_for, flash
 
-from service_bus_functions import (
+from example.client.service_bus_functions import (
     send_messages,
     process_messages,
     inspect_dead_letter_queue,

@@ -13,12 +13,20 @@ TOPIC_NAME = "inference-results"
 
 
 def get_client():
-    """Get a Service Bus client using Entra ID authentication."""
+    """Get a Service Bus client.
+
+    Uses SERVICE_BUS_CONNECTION_STR (SAS key from the portal) if set,
+    otherwise Entra ID authentication against SERVICE_BUS_FQDN.
+    """
+    conn_str = os.environ.get("SERVICE_BUS_CONNECTION_STR")
+    if conn_str:
+        return ServiceBusClient.from_connection_string(conn_str)
+
     fqdn = os.environ.get("SERVICE_BUS_FQDN")
 
     if not fqdn:
         raise ValueError(
-            "SERVICE_BUS_FQDN environment variable must be set"
+            "SERVICE_BUS_CONNECTION_STR or SERVICE_BUS_FQDN environment variable must be set"
         )
 
     credential = DefaultAzureCredential()
